@@ -1,11 +1,12 @@
 window.addEventListener("DOMContentLoaded", () => {
   console.log("Page is fully loaded");
+  preloadLogoImages();
+  setSearchEngineLogo("google");
 });
 
 const searchInput = document.getElementById("searchInput");
 const logo = document.getElementById("logo");
 let currentSearchEngine = "google"; // Track the current search engine
-
 function setSearchEngineLogo(searchEngine) {
   if (searchEngine !== currentSearchEngine) {
     let logoSrc = "";
@@ -27,8 +28,17 @@ function setSearchEngineLogo(searchEngine) {
 
     // Wait for the scaling animation to complete before changing the source
     setTimeout(() => {
+      // Hide the logo until the image has fully loaded
+      logo.style.opacity = "0";
+
+      // Change the source of the logo image
       logo.src = logoSrc;
-      logo.classList.add("show");
+
+      // When the image has loaded, show the logo
+      logo.onload = () => {
+        logo.style.opacity = "1";
+        logo.classList.add("show");
+      };
 
       // Scale up the logo after changing the source
       setTimeout(() => {
@@ -42,6 +52,19 @@ function setSearchEngineLogo(searchEngine) {
 
 function resetLogoAnimation() {
   logo.classList.remove("show");
+}
+
+function preloadLogoImages() {
+  const logoUrls = [
+    "./imgs/duckduckgo-icon.svg",
+    "./imgs/bing-icon.svg",
+    "./imgs/google-icon.svg",
+  ];
+
+  logoUrls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+  });
 }
 
 searchInput.addEventListener("input", function () {

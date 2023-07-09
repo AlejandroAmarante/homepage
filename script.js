@@ -1,70 +1,48 @@
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("Page is fully loaded");
-  preloadLogoImages();
   setSearchEngineLogo("google");
+  console.log("Page is fully loaded");
 });
 
 const searchInput = document.getElementById("searchInput");
 const logo = document.getElementById("logo");
 let currentSearchEngine = "google"; // Track the current search engine
+
 function setSearchEngineLogo(searchEngine) {
   if (searchEngine !== currentSearchEngine) {
-    let logoSrc = "";
-    switch (searchEngine) {
-      case "duckduckgo":
-        logoSrc = "./imgs/duckduckgo-icon.svg";
-        break;
-      case "bing":
-        logoSrc = "./imgs/bing-icon.svg";
-        break;
-      case "google":
-      default:
-        logoSrc = "./imgs/google-icon.svg";
-        break;
-    }
+    const logoSrc = getLogoSrc(searchEngine);
 
-    // Scale down the logo before changing the source
-    logo.style.transform = "scale(0)";
+    // Reduce the opacity of the logo to 0
+    logo.style.opacity = "0";
 
-    // Wait for the scaling animation to complete before changing the source
-    setTimeout(() => {
-      // Hide the logo until the image has fully loaded
-      logo.style.opacity = "0";
+    // When the transition ends, change the source and increase the opacity
+    logo.addEventListener("transitionend", function handleTransitionEnd() {
+      logo.removeEventListener("transitionend", handleTransitionEnd);
 
       // Change the source of the logo image
       logo.src = logoSrc;
 
-      // When the image has loaded, show the logo
+      // When the image has loaded, increase the opacity
       logo.onload = () => {
         logo.style.opacity = "1";
         logo.classList.add("show");
+        logo.style.transition = "";
       };
 
-      // Scale up the logo after changing the source
-      setTimeout(() => {
-        logo.style.transform = "scale(1)";
-      }, 0);
-
       currentSearchEngine = searchEngine; // Update the current search engine
-    }, 300);
+    });
   }
 }
 
-function resetLogoAnimation() {
-  logo.classList.remove("show");
-}
-
-function preloadLogoImages() {
-  const logoUrls = [
-    "./imgs/duckduckgo-icon.svg",
-    "./imgs/bing-icon.svg",
-    "./imgs/google-icon.svg",
-  ];
-
-  logoUrls.forEach((url) => {
-    const img = new Image();
-    img.src = url;
-  });
+function getLogoSrc(searchEngine) {
+  switch (searchEngine) {
+    case "duckduckgo":
+      return "./imgs/duckduckgo-icon.svg";
+    case "bing":
+      return "./imgs/bing-icon.svg";
+    case "google":
+    default:
+      return "./imgs/google-icon.svg";
+  }
 }
 
 searchInput.addEventListener("input", function () {
@@ -87,7 +65,6 @@ searchInput.addEventListener("keydown", function (event) {
     const searchString = searchInput.value.trim();
     const searchEngineModifiers = [":ddg", ":b", ":g"];
 
-    // Check if the search string is not empty and not just a search engine modifier
     if (
       searchString.length > 0 &&
       !searchEngineModifiers.includes(searchString)
@@ -114,7 +91,6 @@ searchInput.addEventListener("keydown", function (event) {
           searchString
         )}`;
       }
-      // Add more search engine modifiers and corresponding URLs as needed
     }
   }
 });

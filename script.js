@@ -1,6 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
-  setSearchEngineLogo("google");
   console.log("Page is fully loaded");
+  const defaultSearchEngine = "google";
+  setSearchEngineLogo(defaultSearchEngine);
 });
 
 const searchInput = document.getElementById("searchInput");
@@ -8,7 +9,7 @@ const logo = document.getElementById("logo");
 let currentSearchEngine = "google"; // Track the current search engine
 
 function setSearchEngineLogo(searchEngine) {
-  if (searchEngine !== currentSearchEngine) {
+  if (searchEngine !== currentSearchEngine && logo.src != null) {
     const logoSrc = getLogoSrc(searchEngine);
 
     // Reduce the opacity of the logo to 0
@@ -30,6 +31,10 @@ function setSearchEngineLogo(searchEngine) {
 
       currentSearchEngine = searchEngine; // Update the current search engine
     });
+  }
+  else {
+    const logoSrc = getLogoSrc(searchEngine);
+    logo.src = logoSrc;
   }
 }
 

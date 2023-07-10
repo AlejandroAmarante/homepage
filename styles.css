@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-image: url("./imgs/backgrounds/test.jpg");
+  background-image: url("./imgs/backgrounds/background3.jpg");
   background-size: cover;
 }
 
@@ -10,7 +10,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70vh;
+  height: 75vh;
   width: 100%;
 }
 
@@ -36,7 +36,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 0.5rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
@@ -52,15 +52,15 @@ body {
   height: 25px;
 }
 
-#test {
+#widgets {
   width: 100%;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-#test2 {
+#info {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,9 +69,9 @@ body {
   gap: 10px;
 }
 
-#test3 {
+#widget {
   width: 100%;
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 0.5rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);

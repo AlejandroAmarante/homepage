@@ -2,6 +2,44 @@ window.addEventListener("DOMContentLoaded", () => {
   console.log("Page is fully loaded");
   const defaultSearchEngine = "google";
   setSearchEngineLogo(defaultSearchEngine);
+
+  const currentDateElement = document.getElementById("date");
+  const today = new Date();
+  currentDateElement.textContent = formatDate(today);
+
+  // JavaScript to set the date
+  function formatDate(date) {
+    const options = {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("en-US", options);
+  }
+
+  function formatTime(date) {
+    const timeOptions = {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    };
+    return date.toLocaleTimeString("en-US", timeOptions);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const timeElement = document.getElementById("time");
+    const now = new Date();
+    timeElement.textContent = formatTime(now);
+  });
+
+  // Optional: Update the time every second
+  setInterval(function () {
+    const timeElement = document.getElementById("time");
+    const now = new Date();
+    timeElement.textContent = formatTime(now);
+  }, 1000);
 });
 
 const searchInput = document.getElementById("searchInput");
@@ -31,8 +69,7 @@ function setSearchEngineLogo(searchEngine) {
 
       currentSearchEngine = searchEngine; // Update the current search engine
     });
-  }
-  else {
+  } else {
     const logoSrc = getLogoSrc(searchEngine);
     logo.src = logoSrc;
   }

@@ -2,14 +2,23 @@
 
 body {
   margin: 0;
-  background-image: url("./imgs/backgrounds/background3.jpg");
-  background-size: cover;
+  background-color: #121212;
+}
+
+#location-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
 }
 
 .center-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   height: 75vh;
   width: 100%;
 }
@@ -27,22 +36,20 @@ body {
   -moz-appearance: none;
   appearance: none;
   box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   background: transparent;
   font-family: "Inter-Regular";
+  color: white;
 }
 
 .search-input-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 10px 15px;
+  background: #202020;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
 }
 
 #logo {
@@ -65,7 +72,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   gap: 10px;
 }
 

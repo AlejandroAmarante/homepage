@@ -7,39 +7,39 @@ window.addEventListener("DOMContentLoaded", () => {
   const today = new Date();
   currentDateElement.textContent = formatDate(today);
 
-  // JavaScript to set the date
-  function formatDate(date) {
-    const options = {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    };
-    return date.toLocaleDateString("en-US", options);
-  }
-
-  function formatTime(date) {
-    const timeOptions = {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    };
-    return date.toLocaleTimeString("en-US", timeOptions);
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const timeElement = document.getElementById("time");
-    const now = new Date();
-    timeElement.textContent = formatTime(now);
-  });
-
   // Optional: Update the time every second
   setInterval(function () {
     const timeElement = document.getElementById("time");
     const now = new Date();
     timeElement.textContent = formatTime(now);
   }, 1000);
+});
+
+// JavaScript to set the date
+function formatDate(date) {
+  const options = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+}
+
+function formatTime(date) {
+  const timeOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+  return date.toLocaleTimeString("en-US", timeOptions);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const timeElement = document.getElementById("time");
+  const now = new Date();
+  timeElement.textContent = formatTime(now);
 });
 
 const searchInput = document.getElementById("searchInput");
@@ -127,6 +127,10 @@ searchInput.addEventListener("keydown", function (event) {
         query = searchString.split(" ").slice(1).join(" ");
         window.location.href = `https://www.google.com/search?q=${encodeURIComponent(
           query
+        )}`;
+      } else if (searchString.startsWith(":sp")) {
+        window.location.href = `https://www.startpage.com/do/search?query=${encodeURIComponent(
+          searchString
         )}`;
       } else {
         window.location.href = `https://www.google.com/search?q=${encodeURIComponent(

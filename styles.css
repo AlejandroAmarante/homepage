@@ -59,6 +59,15 @@ body {
   border-radius: 0.3rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 10px 12px;
+  transition: ease-in-out 0.2s;
+}
+
+.search-input-container:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.search-input-container:focus-within {
+  border-color: white;
 }
 
 #logo {
@@ -99,8 +108,8 @@ body {
 #quick-links {
   display: flex;
   flex-direction: row;
-  gap: 35px;
-  justify-content: center;
+  gap: 40px;
+  justify-content: space-between;
 }
 
 .quick-link-container {

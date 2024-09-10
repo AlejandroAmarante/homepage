@@ -13,6 +13,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
     timeElement.textContent = formatTime(now);
   }, 1000);
+
+  getLocationAndWeather();
 });
 
 // JavaScript to set the date
@@ -36,11 +38,50 @@ function formatTime(date) {
   return date.toLocaleTimeString("en-US", timeOptions);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const timeElement = document.getElementById("time");
-  const now = new Date();
-  timeElement.textContent = formatTime(now);
-});
+// Function to get location and weather
+function getLocationAndWeather() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("Geolocation success"); // Confirm the geolocation is working
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // Call OpenWeather API to get weather data
+        const apiKey = localStorage.getItem("apiKey"); // Replace with your OpenWeather API key
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            // Display location and weather information
+            const locationElement = document.getElementById("location");
+            const weatherElement = document.getElementById("weather");
+
+            const city = data.name;
+            const temp = data.main.temp;
+            const description = data.weather[0].description;
+
+            locationElement.textContent = `${city}`;
+            weatherElement.textContent = `${temp}°C, ${description}`;
+          })
+          .catch((error) =>
+            console.error("Error fetching weather data:", error)
+          );
+      },
+      (error) => {
+        // Log error messages for geolocation issues
+        console.error("Geolocation error:", error.message);
+        document.getElementById("location").textContent =
+          "Location not available";
+        document.getElementById("weather").textContent =
+          "Weather not available";
+      }
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+}
 
 const searchInput = document.getElementById("searchInput");
 const logo = document.getElementById("logo");
@@ -138,5 +179,37 @@ searchInput.addEventListener("keydown", function (event) {
         )}`;
       }
     }
+  }
+});
+
+let locationWeatherElement = document.getElementById("location-weather");
+let modal = document.getElementById("modal");
+let modalContent = document.getElementById("modal-content");
+locationWeatherElement.addEventListener("click", function () {
+  // Show the modal
+  modal.style.display = "flex";
+
+  // Optionally populate modal content
+  modalTitle.textContent = "Location and Weather Details";
+  modalText.textContent =
+    "Here's more detailed information about your location and weather.";
+});
+
+let apiKeyInput = document.getElementById("api-key");
+apiKeyInput.addEventListener("input", function () {
+  // Save the API key to local storage
+  localStorage.setItem("apiKey", apiKeyInput.value);
+});
+
+// Get the API key from local storage
+let apiKey = localStorage.getItem("apiKey");
+if (apiKey) {
+  apiKeyInput.value = apiKey;
+}
+
+// Add event to close the modal when clicking outside the modal content
+window.addEventListener("click", function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none"; // Close the modal
   }
 });

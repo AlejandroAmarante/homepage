@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -28,8 +29,39 @@ html, body {
   overflow: hidden;
 }
 
+#date-time {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  transition: ease-in-out 0.2s;
+}
+
+#date-time:hover {
+  cursor: pointer;
+  background-color: #202020;
+  border-radius: 0.3rem;
+}
+
 #time {
   color: rgba(255, 255, 255, 0.5);
+}
+
+#location-weather {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  padding: 10px;
+  transition: ease-in-out 0.2s;
+}
+
+#weather {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#location-weather:hover {
+  cursor: pointer;
+  background-color: #202020;
+  border-radius: 0.3rem;
 }
 
 .centered-content {
@@ -130,4 +162,60 @@ html, body {
 
 .quick-link:hover {
   text-decoration: underline;
+}
+
+#modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-content {
+  background-color: #121212;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #353535;
+  width: 20%;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-content input {
+  width: 100%;
+  outline: none;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  font-size: 1.3rem;
+  background: transparent;
+  font-family: "Roboto Mono", monospace;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: ease-in-out 0.2s;
+}
+
+#modal-content input:focus {
+  border-bottom: 1px solid white;
+}
+
+.modal-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "Roboto Mono", monospace;
+}
+
+.modal-link:hover {
+  color: rgba(255, 255, 255, 1);
 }

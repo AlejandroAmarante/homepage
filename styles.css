@@ -89,8 +89,9 @@ body {
   box-sizing: border-box;
   font-size: 1.3rem;
   background: transparent;
-  font-family: "Inter-Regular";
+  font-family: "Inter", sans-serif;
   color: white;
+  font-weight: 400;
 }
 
 .search-input-container {
@@ -115,8 +116,8 @@ body {
 #logo {
   opacity: 1;
   transition: opacity 0.15s ease-in-out;
-  width: 25px;
-  height: 25px;
+  width: 27px;
+  height: 27px;
 }
 
 #info {
@@ -126,12 +127,13 @@ body {
   flex-direction: column;
   gap: 10px;
   width: 45%;
+  max-width: 750px;
 }
 
 #quick-links {
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 20px;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
@@ -214,6 +216,7 @@ body {
 .modal-link {
   color: rgba(255, 255, 255, 0.8);
   font-family: "Roboto Mono", monospace;
+  text-align: center;
 }
 
 .modal-link:hover {

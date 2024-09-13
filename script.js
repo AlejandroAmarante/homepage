@@ -86,8 +86,7 @@ function getLocationAndWeather() {
       (error) => {
         console.error("Geolocation error:", error.message);
         document.getElementById("location").textContent = "OpenWeather API";
-        document.getElementById("weather").textContent =
-          "Error";
+        document.getElementById("weather").textContent = "Error";
       }
     );
   } else {
@@ -145,7 +144,15 @@ searchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     const searchString = searchInput.value.trim();
     if (searchString.length > 0) {
-      let query = searchString.split(" ").slice(1).join(" ");
+      let query = searchString;
+      if (
+        searchString.startsWith(":ddg") ||
+        searchString.startsWith(":b") ||
+        searchString.startsWith(":g")
+      ) {
+        query = searchString.split(" ").slice(1).join(" ");
+      }
+
       const searchUrl = searchString.startsWith(":ddg")
         ? `https://duckduckgo.com/?q=${encodeURIComponent(query)}`
         : searchString.startsWith(":b")
@@ -153,8 +160,9 @@ searchInput.addEventListener("keydown", (event) => {
         : searchString.startsWith(":g")
         ? `https://www.google.com/search?q=${encodeURIComponent(query)}`
         : `https://www.startpage.com/do/search?query=${encodeURIComponent(
-            query
+            searchString
           )}`;
+
       window.location.href = searchUrl;
     }
   }

@@ -29,6 +29,70 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   getLocationAndWeather();
+
+  const savedQuickLinks = localStorage.getItem("quickLinks");
+  const quickLinksTextarea = document.getElementById("quick-links-textarea");
+  if (savedQuickLinks) {
+    quickLinksTextarea.value = savedQuickLinks;
+  }
+
+  document.querySelectorAll(".modal-textarea").forEach((textarea) => {
+    textarea.value = prettyPrint(textarea.value);
+  });
+
+  // Function to create quick links from JSON data
+  function createQuickLinks(quickLinksData) {
+    const quickLinksContainer = document.getElementById("quick-links");
+    quickLinksContainer.innerHTML = ""; // Clear current quick links
+
+    quickLinksData.quickLinks.forEach((category) => {
+      // Create a div for the category
+      const containerDiv = document.createElement("div");
+      containerDiv.classList.add("quick-link-container");
+      containerDiv.id = category.id;
+
+      // Create a title for the category
+      const titleElement = document.createElement("h2");
+      titleElement.classList.add("quick-link-title");
+      titleElement.textContent = category.title;
+
+      // Append title to the category div
+      containerDiv.appendChild(titleElement);
+
+      // Loop through each link in the category and create an anchor element
+      category.links.forEach((link) => {
+        const linkElement = document.createElement("a");
+        linkElement.href = link.url;
+        linkElement.classList.add("quick-link");
+        linkElement.textContent = link.text;
+
+        // Append each link to the container div
+        containerDiv.appendChild(linkElement);
+      });
+
+      // Append the entire category div to the quick links container
+      quickLinksContainer.appendChild(containerDiv);
+    });
+  }
+
+  // Load the quick links from the textarea on page load
+  let quickLinksData;
+  try {
+    quickLinksData = JSON.parse(quickLinksTextarea.value);
+    createQuickLinks(quickLinksData);
+  } catch (error) {
+    console.error("Error parsing quick links JSON:", error);
+  }
+
+  // Update quick links when textarea content changes
+  quickLinksTextarea.addEventListener("input", () => {
+    try {
+      quickLinksData = JSON.parse(quickLinksTextarea.value);
+      createQuickLinks(quickLinksData);
+    } catch (error) {
+      console.error("Error parsing quick links JSON:", error);
+    }
+  });
 });
 
 function formatDate(date) {
@@ -169,14 +233,12 @@ searchInput.addEventListener("keydown", (event) => {
 });
 
 document.getElementById("location-weather").addEventListener("click", () => {
-  const modal = document.getElementById("modal");
-  const modalTitle = document.getElementById("modal-title");
-  const modalText = document.getElementById("modal-text");
+  openModal();
 
-  modal.style.display = "flex";
-  modalTitle.textContent = "Location and Weather Details";
-  modalText.textContent =
-    "Here's more detailed information about your location and weather.";
+  const openweatherModalContent = document.getElementById(
+    "openweather-modal-content"
+  );
+  openweatherModalContent.style.display = "block";
 });
 
 const apiKeyInput = document.getElementById("api-key");
@@ -187,9 +249,52 @@ apiKeyInput.addEventListener("input", () => {
   }
 });
 
+document.getElementById("settings").addEventListener("click", () => {
+  openModal();
+  const settingsModalContent = document.getElementById(
+    "settings-modal-content"
+  );
+  settingsModalContent.style.display = "block";
+});
+
+document.querySelectorAll(".modal-textarea").forEach((textarea) => {
+  textarea.addEventListener("input", () => {
+    textarea.value = prettyPrint(textarea.value);
+  });
+});
+
+const quickLinksTextarea = document.getElementById("quick-links-textarea");
+quickLinksTextarea.addEventListener("input", () => {
+  localStorage.setItem("quickLinks", quickLinksTextarea.value);
+});
+
 window.addEventListener("click", (event) => {
-  const modal = document.getElementById("modal");
   if (event.target == modal) {
-    modal.style.display = "none";
+    closeModal();
   }
 });
+
+function openModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+
+  const openweatherModalContent = document.getElementById(
+    "openweather-modal-content"
+  );
+  openweatherModalContent.style.display = "none";
+  const settingsModalContent = document.getElementById(
+    "settings-modal-content"
+  );
+  settingsModalContent.style.display = "none";
+}
+
+function prettyPrint(input) {
+  var obj = JSON.parse(input);
+  var pretty = JSON.stringify(obj, undefined, 4);
+  return pretty;
+}

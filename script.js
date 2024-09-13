@@ -245,7 +245,7 @@ const apiKeyInput = document.getElementById("api-key");
 apiKeyInput.addEventListener("input", () => {
   localStorage.setItem("apiKey", apiKeyInput.value);
   if (apiKeyInput.value) {
-    setTimeout(() => window.location.reload(), 1000);
+    getLocationAndWeather();
   }
 });
 

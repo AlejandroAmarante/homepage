@@ -1,6 +1,90 @@
 window.addEventListener("DOMContentLoaded", () => {
   console.log("Page is fully loaded");
 
+  const defualtQuickLinks = [
+    {
+      title: "entertainment",
+      links: [
+        {
+          text: "youtube",
+          url: "https://www.youtube.com",
+        },
+        {
+          text: "reddit",
+          url: "https://www.reddit.com",
+        },
+      ],
+    },
+    {
+      title: "utilities",
+      links: [
+        {
+          text: "snapdrop",
+          url: "https://snapdrop.net",
+        },
+        {
+          text: "librespeed",
+          url: "https://librespeed.org",
+        },
+        {
+          text: "mega",
+          url: "https://mega.io",
+        },
+      ],
+    },
+    {
+      title: "productivity",
+      links: [
+        {
+          text: "gmail",
+          url: "https://www.gmail.com",
+        },
+        {
+          text: "google drive",
+          url: "https://drive.google.com/drive/u/0/home",
+        },
+        {
+          text: "chatgpt",
+          url: "https://chatgpt.com",
+        },
+        {
+          text: "linkedin",
+          url: "https://www.linkedin.com",
+        },
+        {
+          text: "github",
+          url: "https://www.github.com",
+        },
+      ],
+    },
+    {
+      title: "game dev",
+      links: [
+        {
+          text: "sketchfab",
+          url: "https://sketchfab.com",
+        },
+        {
+          text: "ambientCG",
+          url: "https://ambientCG.com",
+        },
+      ],
+    },
+    {
+      title: "web dev",
+      links: [
+        {
+          text: "heropatterns",
+          url: "https://heropatterns.com/",
+        },
+        {
+          text: "remixicon",
+          url: "https://remixicon.com",
+        },
+      ],
+    },
+  ];
+
   const defaultSearchEngine = "startpage";
   setSearchEngineLogo(defaultSearchEngine);
 
@@ -34,6 +118,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const quickLinksTextarea = document.getElementById("quick-links-textarea");
   if (savedQuickLinks) {
     quickLinksTextarea.value = savedQuickLinks;
+  } else if (savedQuickLinks === null) {
+    quickLinksTextarea.value = JSON.stringify(defualtQuickLinks, null, 2);
   }
 
   document.querySelectorAll(".modal-textarea").forEach((textarea) => {
@@ -49,7 +135,7 @@ window.addEventListener("DOMContentLoaded", () => {
       // Create a div for the category
       const containerDiv = document.createElement("div");
       containerDiv.classList.add("quick-link-container");
-      
+
       const id = category.title.replace(/\s+/g, "-").toLowerCase();
       containerDiv.id = id;
 

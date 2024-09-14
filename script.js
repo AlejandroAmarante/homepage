@@ -45,11 +45,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const quickLinksContainer = document.getElementById("quick-links");
     quickLinksContainer.innerHTML = ""; // Clear current quick links
 
-    quickLinksData.quickLinks.forEach((category) => {
+    quickLinksData.forEach((category) => {
       // Create a div for the category
       const containerDiv = document.createElement("div");
       containerDiv.classList.add("quick-link-container");
-      containerDiv.id = category.id;
+      
+      const id = category.title.replace(/\s+/g, "-").toLowerCase();
+      containerDiv.id = id;
 
       // Create a title for the category
       const titleElement = document.createElement("h2");

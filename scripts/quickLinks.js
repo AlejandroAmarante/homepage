@@ -130,6 +130,7 @@ function initializeQuickLinks() {
     try {
       quickLinksData = JSON.parse(quickLinksTextarea.value);
       createQuickLinks(quickLinksData);
+      localStorage.setItem("quickLinks", quickLinksTextarea.value);
     } catch (error) {
       console.error("Error parsing quick links JSON:", error);
     }

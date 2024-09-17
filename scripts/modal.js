@@ -21,7 +21,7 @@ function initializeWeatherModalHandler() {
 function initializeSettingsModalHandler() {
   document.getElementById("settings").addEventListener("click", () => {
     openModal();
-    document.getElementById("settings-modal-content").style.display = "block";
+    document.getElementById("settings-modal-content").style.display = "flex";
   });
 
   window.addEventListener("click", (event) => {

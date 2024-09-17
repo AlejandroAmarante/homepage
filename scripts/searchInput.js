@@ -1,5 +1,29 @@
 let currentSearchEngine = "startpage";
 
+const searchEngines = [
+  {
+    alias: ":sp",
+    searchLink: "https://startpage.com/do/search?query=",
+    searchIcon: "./imgs/startpage-icon.svg",
+    isDefualt: true,
+  },
+  {
+    alias: ":ddg",
+    searchLink: "https://duckduckgo.com/?q=",
+    searchIcon: "./imgs/duckduckgo-icon.svg",
+  },
+  {
+    alias: ":b",
+    searchLink: "https://bing.com/search?q=",
+    searchIcon: "./imgs/bing-icon.svg",
+  },
+  {
+    alias: ":g",
+    searchLink: "https://www.google.com/search?q=",
+    searchIcon: "./imgs/google-icon.svg",
+  },
+];
+
 function setSearchEngineLogo(searchEngine) {
   const logo = document.getElementById("logo");
   if (searchEngine !== currentSearchEngine && logo.src != null) {
@@ -20,6 +44,15 @@ function setSearchEngineLogo(searchEngine) {
 
 function initializeSearchEngineHandler() {
   const searchInput = document.getElementById("searchInput");
+  const searchEnginesTextarea = document.getElementById(
+    "search-engines-textarea"
+  );
+
+  if (localStorage.getItem("searchEngines")) {
+    searchEnginesTextarea.value = localStorage.getItem("searchEngines");
+  } else {
+    searchEnginesTextarea.value = JSON.stringify(searchEngines, null, 2);
+  }
 
   searchInput.addEventListener("input", () => {
     const searchString = searchInput.value.trim();

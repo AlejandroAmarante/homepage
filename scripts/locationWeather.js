@@ -42,6 +42,9 @@ function getLocationAndWeather() {
 
 function initializeWeather() {
   const apiKeyInput = document.getElementById("api-key");
+  if (localStorage.getItem("apiKey")) {
+    apiKeyInput.value = localStorage.getItem("apiKey");
+  }
   apiKeyInput.addEventListener("input", () => {
     localStorage.setItem("apiKey", apiKeyInput.value);
     if (apiKeyInput.value) {

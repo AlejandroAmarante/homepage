@@ -29,12 +29,7 @@ const defualtSearchEngines = [
   },
 ];
 
-console.log(localStorage.getItem("savedSearchEngines"));
-let currentSearchEngine = JSON.parse(
-  localStorage.getItem("savedSearchEngines")
-).find((engine) => engine.isDefault);
-
-console.log(currentSearchEngine);
+let currentSearchEngine;
 
 function setSearchEngineLogo(searchEngine) {
   const logo = document.getElementById("logo");
@@ -64,18 +59,23 @@ function initializeSearchEngineHandler() {
     searchEnginesTextarea.value = localStorage.getItem("savedSearchEngines");
   } else {
     searchEnginesTextarea.value = JSON.stringify(defualtSearchEngines, null, 2);
-    localStorage.setItem(
-      "savedSearchEngines",
-      JSON.stringify(defualtSearchEngines)
-    );
+    localStorage.setItem("savedSearchEngines", defualtSearchEngines);
   }
 
+  currentSearchEngine = JSON.parse(
+    localStorage.getItem("savedSearchEngines")
+  ).find((engine) => engine.isDefault);
+
   searchEnginesTextarea.addEventListener("input", () => {
-    localStorage.setItem(
-      "savedSearchEngines",
-      JSON.stringify(searchEnginesTextarea.value)
-    );
+    localStorage.setItem("savedSearchEngines", searchEnginesTextarea.value);
   });
+
+  console.log(
+    localStorage.getItem("savedSearchEngines"),
+    "Saved Search Engines"
+  );
+
+  console.log(currentSearchEngine);
 
   // searchInput.addEventListener("input", () => {
   //   const searchString = searchInput.value.trim();

@@ -1,31 +1,31 @@
-const defualtSearchEngines = [
+const defaultSearchEngines = [
   {
     searchEngine: "startpage",
     alias: ":sp",
     searchLink: "https://startpage.com/do/search?query=",
     searchIcon: "./imgs/startpage-icon.svg",
-    isDefualt: true,
+    isDefault: true,
   },
   {
-    searchEngine: "bing",
+    searchEngine: "duckduckgo",
     alias: ":ddg",
     searchLink: "https://duckduckgo.com/?q=",
     searchIcon: "./imgs/duckduckgo-icon.svg",
-    isDefualt: false,
+    isDefault: false,
   },
   {
     searchEngine: "bing",
     alias: ":b",
     searchLink: "https://bing.com/search?q=",
     searchIcon: "./imgs/bing-icon.svg",
-    isDefualt: false,
+    isDefault: false,
   },
   {
     searchEngine: "google",
     alias: ":g",
     searchLink: "https://www.google.com/search?q=",
     searchIcon: "./imgs/google-icon.svg",
-    isDefualt: false,
+    isDefault: false,
   },
 ];
 
@@ -55,27 +55,32 @@ function initializeSearchEngineHandler() {
     "search-engines-textarea"
   );
 
-  if (localStorage.getItem("savedSearchEngines")) {
-    searchEnginesTextarea.value = localStorage.getItem("savedSearchEngines");
+  // Fetch saved search engines or use the default
+  let savedSearchEngines = localStorage.getItem("savedSearchEngines");
+  if (savedSearchEngines) {
+    searchEnginesTextarea.value = savedSearchEngines;
   } else {
-    searchEnginesTextarea.value = JSON.stringify(defualtSearchEngines, null, 2);
-    localStorage.setItem("savedSearchEngines", defualtSearchEngines);
+    searchEnginesTextarea.value = JSON.stringify(defaultSearchEngines, null, 2);
   }
 
-  currentSearchEngine = JSON.parse(
-    localStorage.getItem("savedSearchEngines")
-  ).find((engine) => engine.isDefault);
+  // // Set the current default search engine
+  // currentSearchEngine = savedSearchEngines.find((engine) => engine.isDefault);
 
-  searchEnginesTextarea.addEventListener("input", () => {
-    localStorage.setItem("savedSearchEngines", searchEnginesTextarea.value);
-  });
+  // // Update localStorage when textarea is edited
+  // searchEnginesTextarea.addEventListener("input", () => {
+  //   try {
+  //     const updatedEngines = JSON.parse(searchEnginesTextarea.value);
+  //     localStorage.setItem(
+  //       "savedSearchEngines",
+  //       JSON.stringify(updatedEngines, null, 2)
+  //     );
+  //   } catch (error) {
+  //     console.error("Invalid JSON in textarea:", error);
+  //   }
+  // });
 
-  console.log(
-    localStorage.getItem("savedSearchEngines"),
-    "Saved Search Engines"
-  );
-
-  console.log(currentSearchEngine);
+  console.log("Saved Search Engines", savedSearchEngines);
+  console.log("Current Search Engine", currentSearchEngine);
 
   // searchInput.addEventListener("input", () => {
   //   const searchString = searchInput.value.trim();

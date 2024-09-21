@@ -120,7 +120,7 @@ function initializeQuickLinks() {
 
   let quickLinksData;
   try {
-    quickLinksData = JSON.parse(quickLinksTextarea.value);
+    quickLinksData = defaultQuickLinks;
     createQuickLinks(quickLinksData);
   } catch (error) {
     console.error("Error parsing quick links JSON:", error);

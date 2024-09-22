@@ -61,26 +61,51 @@ function initializeSearchEngineHandler() {
     searchEnginesTextarea.value = savedSearchEngines;
   } else {
     searchEnginesTextarea.value = JSON.stringify(defaultSearchEngines, null, 2);
+    localStorage.setItem(
+      "savedSearchEngines",
+      JSON.stringify(defaultSearchEngines, null, 2)
+    );
   }
 
   // // Set the current default search engine
-  // currentSearchEngine = savedSearchEngines.find((engine) => engine.isDefault);
+  currentSearchEngine = JSON.parse(
+    localStorage.getItem("savedSearchEngines")
+  ).filter((engine) => engine.isDefault)[0].searchEngine;
 
-  // // Update localStorage when textarea is edited
-  // searchEnginesTextarea.addEventListener("input", () => {
-  //   try {
-  //     const updatedEngines = JSON.parse(searchEnginesTextarea.value);
-  //     localStorage.setItem(
-  //       "savedSearchEngines",
-  //       JSON.stringify(updatedEngines, null, 2)
-  //     );
-  //   } catch (error) {
-  //     console.error("Invalid JSON in textarea:", error);
-  //   }
-  // });
+  // Update localStorage when textarea is edited
+  searchEnginesTextarea.addEventListener("input", () => {
+    setTimeout(() => {
+      try {
+        const updatedEngines = JSON.parse(searchEnginesTextarea.value);
+        localStorage.setItem(
+          "savedSearchEngines",
+          JSON.stringify(updatedEngines, null, 2)
+        );
+      } catch (error) {
+        console.error("Invalid JSON in textarea:", error);
+      }
+
+      currentSearchEngine = JSON.parse(
+        localStorage.getItem("savedSearchEngines")
+      ).filter((engine) => engine.isDefault)[0].searchEngine;
+      setSearchEngineLogo(currentSearchEngine);
+    }, 1000);
+  });
 
   console.log("Saved Search Engines", savedSearchEngines);
   console.log("Current Search Engine", currentSearchEngine);
+
+  setSearchEngineLogo(currentSearchEngine);
+
+  let resetSearchEngines = document.getElementById("reset-search-engines");
+  resetSearchEngines.addEventListener("click", () => {
+    searchEnginesTextarea.value = JSON.stringify(defaultSearchEngines, null, 2);
+    localStorage.removeItem("savedSearchEngines");
+    currentSearchEngine = defaultSearchEngines.filter(
+      (engine) => engine.isDefault
+    )[0].searchEngine;
+    setSearchEngineLogo(currentSearchEngine);
+  });
 
   // searchInput.addEventListener("input", () => {
   //   const searchString = searchInput.value.trim();

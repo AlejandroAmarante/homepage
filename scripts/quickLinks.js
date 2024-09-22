@@ -135,4 +135,10 @@ function initializeQuickLinks() {
       console.error("Error parsing quick links JSON:", error);
     }
   });
+
+  let resetQuickLinks = document.getElementById("reset-quick-links");
+  resetQuickLinks.addEventListener("click", () => {
+    quickLinksTextarea.value = JSON.stringify(defaultQuickLinks, null, 2);
+    localStorage.removeItem("quickLinks");
+  });
 }

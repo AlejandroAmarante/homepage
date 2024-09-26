@@ -81,8 +81,10 @@ function initializeSearchEngineHandler() {
           "savedSearchEngines",
           JSON.stringify(updatedEngines, null, 2)
         );
+        searchEnginesTextarea.style.backgroundColor = "#353535";
       } catch (error) {
         console.error("Invalid JSON in textarea:", error);
+        searchEnginesTextarea.style.backgroundColor = "#4f0000";
       }
 
       currentSearchEngine = JSON.parse(

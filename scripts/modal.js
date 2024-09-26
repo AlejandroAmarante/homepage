@@ -23,11 +23,11 @@ function initializeSettingsModalHandler() {
     openModal();
     document.getElementById("settings-modal-content").style.display = "flex";
   });
-
-  window.addEventListener("click", (event) => {
-    const modal = document.getElementById("modal");
-    if (event.target == modal) {
-      closeModal();
-    }
-  });
 }
+
+window.addEventListener("click", (event) => {
+  const modal = document.getElementById("modal");
+  if (event.target == modal) {
+    closeModal();
+  }
+});

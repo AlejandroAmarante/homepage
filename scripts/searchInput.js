@@ -109,41 +109,60 @@ function initializeSearchEngineHandler() {
     setSearchEngineLogo(currentSearchEngine);
   });
 
-  // searchInput.addEventListener("input", () => {
-  //   const searchString = searchInput.value.trim();
-  //   const searchEngine = searchString.startsWith(":ddg")
-  //     ? "duckduckgo"
-  //     : searchString.startsWith(":b")
-  //     ? "bing"
-  //     : searchString.startsWith(":g")
-  //     ? "google"
-  //     : "startpage";
-  //   setSearchEngineLogo(searchEngine);
-  // });
+  searchInput.addEventListener("input", () => {
+    const searchString = searchInput.value.trim();
+    const searchEngine = searchString.startsWith(":ddg")
+      ? "duckduckgo"
+      : searchString.startsWith(":b")
+      ? "bing"
+      : searchString.startsWith(":g")
+      ? "google"
+      : searchString.startsWith(":sp")
+      ? "startpage"
+      : JSON.parse(localStorage.getItem("savedSearchEngines")).filter(
+          (engine) => engine.isDefault
+        )[0].searchEngine;
+    setSearchEngineLogo(searchEngine);
+  });
 
-  // searchInput.addEventListener("keydown", (event) => {
-  //   if (event.key === "Enter") {
-  //     const searchString = searchInput.value.trim();
-  //     if (searchString.length > 0) {
-  //       let query = searchString;
-  //       if (
-  //         searchString.startsWith(":ddg") ||
-  //         searchString.startsWith(":b") ||
-  //         searchString.startsWith(":g")
-  //       ) {
-  //         query = searchString.split(" ").slice(1).join(" ");
-  //       }
-  //       const searchUrl = searchString.startsWith(":ddg")
-  //         ? `https://duckduckgo.com/?q=${encodeURIComponent(query)}`
-  //         : searchString.startsWith(":b")
-  //         ? `https://www.bing.com/search?q=${encodeURIComponent(query)}`
-  //         : searchString.startsWith(":g")
-  //         ? `https://www.google.com/search?q=${encodeURIComponent(query)}`
-  //         : `https://www.startpage.com/do/search?query=${encodeURIComponent(
-  //             searchString
-  //           )}`;
-  //       window.location.href = searchUrl;
-  //     }
-  //   }
-  // });
+  // This portion below
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const searchString = searchInput.value.trim();
+      if (searchString.length > 0) {
+        let query = searchString;
+        let searchUrl;
+
+        // Check if the input starts with any alias, split the query accordingly
+        if (
+          searchString.startsWith(":ddg") ||
+          searchString.startsWith(":b") ||
+          searchString.startsWith(":g") ||
+          searchString.startsWith(":sp")
+        ) {
+          query = searchString.split(" ").slice(1).join(" ");
+
+          searchUrl = searchString.startsWith(":ddg")
+            ? `https://duckduckgo.com/?q=${encodeURIComponent(query)}`
+            : searchString.startsWith(":b")
+            ? `https://www.bing.com/search?q=${encodeURIComponent(query)}`
+            : searchString.startsWith(":g")
+            ? `https://www.google.com/search?q=${encodeURIComponent(query)}`
+            : `https://www.startpage.com/do/search?query=${encodeURIComponent(
+                query
+              )}`;
+        } else {
+          // If no alias is provided, use the default search engine from localStorage
+          const defaultSearchEngine = JSON.parse(
+            localStorage.getItem("savedSearchEngines")
+          ).filter((engine) => engine.isDefault)[0];
+          searchUrl = `${defaultSearchEngine.searchLink}${encodeURIComponent(
+            searchString
+          )}`;
+        }
+
+        window.location.href = searchUrl;
+      }
+    }
+  });
 }

@@ -193,7 +193,7 @@ function initializeSearchEngineHandler() {
       searchEngineMap.get(firstWord)?.searchEngine ||
       defaultEngine.searchEngine;
     console.log(searchEngineMap);
-    `setSearchEngineLogo`(searchEngine);
+    setSearchEngineLogo(searchEngine);
     filterQuickLinks(searchString);
   });
 

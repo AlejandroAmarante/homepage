@@ -1,6 +1,8 @@
-function openModal() {
+function openModal(desiredWidth) {
   const modal = document.getElementById("modal");
+  const modalContent = document.getElementById("modal-content");
   modal.style.display = "flex";
+  modalContent.style.width = desiredWidth;
 }
 
 function closeModal() {
@@ -13,14 +15,14 @@ function closeModal() {
 
 function initializeWeatherModalHandler() {
   document.getElementById("location-weather").addEventListener("click", () => {
-    openModal();
+    openModal("25%");
     document.getElementById("openweather-modal-content").style.display = "flex";
   });
 }
 
 function initializeSettingsModalHandler() {
   document.getElementById("settings").addEventListener("click", () => {
-    openModal();
+    openModal("60%");
     document.getElementById("settings-modal-content").style.display = "flex";
   });
 }

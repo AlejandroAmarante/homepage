@@ -41,6 +41,10 @@ const defaultQuickLinks = [
         url: "https://drive.google.com/drive/u/0/home",
       },
       {
+        text: "claude",
+        url: "https://claude.ai",
+      },
+      {
         text: "chatgpt",
         url: "https://chatgpt.com",
       },

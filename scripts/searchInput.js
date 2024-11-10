@@ -93,11 +93,11 @@ function filterQuickLinks(searchString) {
       : "0.3";
   });
 
-  return quickLinks.filter(
-    (link) =>
-      link.text.toLowerCase().includes(normalizedSearch) ||
-      link.url.toLowerCase().includes(normalizedSearch)
-  );
+  return Array.from(quickLinkElements)
+    .filter((element) =>
+      element.textContent.toLowerCase().includes(normalizedSearch)
+    )
+    .map((element) => element.href);
 }
 
 function handleSearch(searchString, isAltKey = false) {
@@ -106,7 +106,7 @@ function handleSearch(searchString, isAltKey = false) {
   if (isAltKey) {
     const matchingLinks = filterQuickLinks(searchString);
     if (matchingLinks.length > 0) {
-      window.location.href = matchingLinks[0].url;
+      window.location.href = matchingLinks[0];
       return;
     }
   }
@@ -192,7 +192,6 @@ function initializeSearchEngineHandler() {
     const searchEngine =
       searchEngineMap.get(firstWord)?.searchEngine ||
       defaultEngine.searchEngine;
-    console.log(searchEngineMap);
     setSearchEngineLogo(searchEngine);
     filterQuickLinks(searchString);
   });

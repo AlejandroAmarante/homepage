@@ -1,0 +1,32 @@
+{
+  "searchEngines": [
+    {
+      "searchEngine": "startpage",
+      "alias": ":sp",
+      "searchLink": "https://startpage.com/do/search?query=",
+      "searchIcon": "./imgs/startpage-icon.svg",
+      "isDefault": true
+    },
+    {
+      "searchEngine": "duckduckgo",
+      "alias": ":ddg",
+      "searchLink": "https://duckduckgo.com/?q=",
+      "searchIcon": "./imgs/duckduckgo-icon.svg",
+      "isDefault": false
+    },
+    {
+      "searchEngine": "bing",
+      "alias": ":b",
+      "searchLink": "https://bing.com/search?q=",
+      "searchIcon": "./imgs/bing-icon.svg",
+      "isDefault": false
+    },
+    {
+      "searchEngine": "google",
+      "alias": ":g",
+      "searchLink": "https://www.google.com/search?q=",
+      "searchIcon": "./imgs/google-icon.svg",
+      "isDefault": false
+    }
+  ]
+}

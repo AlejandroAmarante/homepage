@@ -1,34 +1,3 @@
-const defaultSearchEngines = [
-  {
-    searchEngine: "startpage",
-    alias: ":sp",
-    searchLink: "https://startpage.com/do/search?query=",
-    searchIcon: "./imgs/startpage-icon.svg",
-    isDefault: true,
-  },
-  {
-    searchEngine: "duckduckgo",
-    alias: ":ddg",
-    searchLink: "https://duckduckgo.com/?q=",
-    searchIcon: "./imgs/duckduckgo-icon.svg",
-    isDefault: false,
-  },
-  {
-    searchEngine: "bing",
-    alias: ":b",
-    searchLink: "https://bing.com/search?q=",
-    searchIcon: "./imgs/bing-icon.svg",
-    isDefault: false,
-  },
-  {
-    searchEngine: "google",
-    alias: ":g",
-    searchLink: "https://www.google.com/search?q=",
-    searchIcon: "./imgs/google-icon.svg",
-    isDefault: false,
-  },
-];
-
 // Cache DOM elements and frequently used values
 const elements = {
   logo: null,
@@ -39,6 +8,20 @@ const elements = {
 
 let currentSearchEngine = null;
 let searchEngineMap = new Map();
+
+async function loadDefaultSearchEngines() {
+  try {
+    const response = await fetch("./data/defaultSearchEngines.json");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.searchEngines;
+  } catch (error) {
+    console.error("Error loading default search engines:", error);
+    return [];
+  }
+}
 
 // Initialize the search engine map for O(1) lookup
 function initializeSearchEngineMap(engines) {
@@ -147,7 +130,7 @@ function saveSearchEngines(engineText) {
   }
 }
 
-function initializeSearchEngineHandler() {
+async function initializeSearchEngineHandler() {
   // Cache DOM elements
   elements.logo = document.getElementById("logo");
   elements.searchInput = document.getElementById("searchInput");
@@ -157,14 +140,15 @@ function initializeSearchEngineHandler() {
 
   // Initialize search engines
   const savedEngines = localStorage.getItem("savedSearchEngines");
+  const defaultEngines = await loadDefaultSearchEngines();
   const initialEngines = savedEngines
     ? JSON.parse(savedEngines)
-    : defaultSearchEngines;
+    : defaultEngines;
 
-  if (!savedEngines) {
+  if (!savedEngines && defaultEngines.length > 0) {
     localStorage.setItem(
       "savedSearchEngines",
-      JSON.stringify(defaultSearchEngines, null, 2)
+      JSON.stringify(defaultEngines, null, 2)
     );
   }
 
@@ -205,14 +189,15 @@ function initializeSearchEngineHandler() {
 
   document
     .getElementById("reset-search-engines")
-    .addEventListener("click", () => {
+    .addEventListener("click", async () => {
+      const defaultEngines = await loadDefaultSearchEngines();
       elements.searchEnginesTextarea.value = JSON.stringify(
-        defaultSearchEngines,
+        defaultEngines,
         null,
         2
       );
       localStorage.removeItem("savedSearchEngines");
-      initializeSearchEngineMap(defaultSearchEngines);
+      initializeSearchEngineMap(defaultEngines);
       setSearchEngineLogo(currentSearchEngine);
     });
 }
@@ -229,3 +214,6 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
+
+// Initialize when the DOM is loaded
+document.addEventListener("DOMContentLoaded", initializeSearchEngineHandler);

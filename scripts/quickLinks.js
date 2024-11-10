@@ -1,95 +1,20 @@
-const defaultQuickLinks = [
-  {
-    title: "entertainment",
-    links: [
-      {
-        text: "youtube",
-        url: "https://www.youtube.com",
-      },
-      {
-        text: "reddit",
-        url: "https://www.reddit.com",
-      },
-    ],
-  },
-  {
-    title: "utilities",
-    links: [
-      {
-        text: "snapdrop",
-        url: "https://snapdrop.net",
-      },
-      {
-        text: "librespeed",
-        url: "https://librespeed.org",
-      },
-      {
-        text: "mega",
-        url: "https://mega.io",
-      },
-    ],
-  },
-  {
-    title: "productivity",
-    links: [
-      {
-        text: "gmail",
-        url: "https://www.gmail.com",
-      },
-      {
-        text: "google drive",
-        url: "https://drive.google.com/drive/u/0/home",
-      },
-      {
-        text: "claude",
-        url: "https://claude.ai",
-      },
-      {
-        text: "chatgpt",
-        url: "https://chatgpt.com",
-      },
-      {
-        text: "linkedin",
-        url: "https://www.linkedin.com",
-      },
-      {
-        text: "github",
-        url: "https://www.github.com",
-      },
-    ],
-  },
-  {
-    title: "game dev",
-    links: [
-      {
-        text: "sketchfab",
-        url: "https://sketchfab.com",
-      },
-      {
-        text: "ambientCG",
-        url: "https://ambientCG.com",
-      },
-    ],
-  },
-  {
-    title: "web dev",
-    links: [
-      {
-        text: "heropatterns",
-        url: "https://heropatterns.com/",
-      },
-      {
-        text: "remixicon",
-        url: "https://remixicon.com",
-      },
-    ],
-  },
-];
+async function loadDefaultQuickLinks() {
+  try {
+    const response = await fetch("./data/defualtQuickLinks.json");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.quickLinks;
+  } catch (error) {
+    console.error("Error loading default quick links:", error);
+    return [];
+  }
+}
 
 function createQuickLinks(quickLinksData) {
   const quickLinksContainer = document.getElementById("quick-links");
   quickLinksContainer.innerHTML = ""; // Clear current quick links
-
   quickLinksData.forEach((category) => {
     const containerDiv = document.createElement("div");
     containerDiv.classList.add("quick-link-container");
@@ -112,9 +37,12 @@ function createQuickLinks(quickLinksData) {
   });
 }
 
-function initializeQuickLinks() {
-  const savedQuickLinks = localStorage.getItem("quickLinks");
+async function initializeQuickLinks() {
   const quickLinksTextarea = document.getElementById("quick-links-textarea");
+  const savedQuickLinks = localStorage.getItem("quickLinks");
+
+  // Load default quick links from JSON file
+  const defaultQuickLinks = await loadDefaultQuickLinks();
 
   if (savedQuickLinks) {
     quickLinksTextarea.value = savedQuickLinks;
@@ -124,7 +52,9 @@ function initializeQuickLinks() {
 
   let quickLinksData;
   try {
-    quickLinksData = defaultQuickLinks;
+    quickLinksData = savedQuickLinks
+      ? JSON.parse(savedQuickLinks)
+      : defaultQuickLinks;
     createQuickLinks(quickLinksData);
   } catch (error) {
     console.error("Error parsing quick links JSON:", error);
@@ -141,8 +71,13 @@ function initializeQuickLinks() {
   });
 
   let resetQuickLinks = document.getElementById("reset-quick-links");
-  resetQuickLinks.addEventListener("click", () => {
-    quickLinksTextarea.value = JSON.stringify(defaultQuickLinks, null, 2);
+  resetQuickLinks.addEventListener("click", async () => {
+    const defaultLinks = await loadDefaultQuickLinks();
+    quickLinksTextarea.value = JSON.stringify(defaultLinks, null, 2);
+    createQuickLinks(defaultLinks);
     localStorage.removeItem("quickLinks");
   });
 }
+
+// Initialize when the DOM is loaded
+document.addEventListener("DOMContentLoaded", initializeQuickLinks);

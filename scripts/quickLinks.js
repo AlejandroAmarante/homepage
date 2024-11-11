@@ -1,6 +1,6 @@
 async function loadDefaultQuickLinks() {
   try {
-    const response = await fetch("./data/defualtQuickLinks.json");
+    const response = await fetch("./data/defaultQuickLinks.json");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
